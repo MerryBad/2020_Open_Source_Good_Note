@@ -10,9 +10,13 @@ import com.team12.goodnote.models.Note;
 import com.team12.goodnote.models.Note_Table;
 
 public class NotesDatabaseAccess {
-	public static List<Note> getLatestNotes(Folder folder){
+	public static List<Note> getLatestNotes(Folder folder, boolean sort ){
 		if (folder == null)
-			return SQLite.select().from( Note.class).orderBy(Note_Table.createdAt, false).queryList();
+			if (sort == false)
+				return SQLite.select().from( Note.class).orderBy(Note_Table.createdAt, false).queryList();
+			else
+				return SQLite.select().from( Note.class).orderBy(Note_Table.title, true).queryList();
+
 		else
 			return FolderNoteDatabaseAccess.getLatestNotes( folder );
 	}
