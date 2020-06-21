@@ -55,12 +55,16 @@ public class NoteListFragment extends Fragment{
 		mRecyclerView.setLayoutManager(slm);
 		adapter = new Adapter(zeroNotesView, folder );
 		mRecyclerView.setAdapter(adapter);
-		adapter.loadFromDatabase();
+		adapter.loadFromDatabase(false);
 	}
 
 	@OnClick(R.id.new_note) void clickNewNoteButton(){
 		Intent intent = new NoteActivityIntentBuilder().build(getContext());
 		this.startActivity(intent);
+	}
+
+	@OnClick(R.id.sort) void clickSortButton(){ // 클릭시 노트의 순서를 정렬함
+		adapter.loadFromDatabase(true);
 	}
 
 	@Override public void onStart(){
