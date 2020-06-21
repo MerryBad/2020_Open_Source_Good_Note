@@ -65,8 +65,8 @@ class Adapter extends RecyclerView.Adapter{
 		return size;
 	}
 
-	void loadFromDatabase(){
-		notes = NotesDatabaseAccess.getLatestNotes( folder );
+	void loadFromDatabase(boolean sort){
+		notes = NotesDatabaseAccess.getLatestNotes( folder , sort);
 		notifyDataSetChanged();
 	}
 
