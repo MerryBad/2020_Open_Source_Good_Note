@@ -1,6 +1,8 @@
 package com.team12.goodnote.activities.note;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -20,6 +22,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.InputStream;
 import java.util.Date;
 
 import androidx.annotation.Nullable;
@@ -28,6 +31,8 @@ import androidx.appcompat.widget.Toolbar;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+
+import com.team12.goodnote.App;
 import com.team12.goodnote.R;
 import com.team12.goodnote.Views.RichEditWidgetView;
 import com.team12.goodnote.activities.addtofolders.AddToFoldersActivityIntentBuilder;
@@ -36,6 +41,8 @@ import com.team12.goodnote.database.NotesDatabaseAccess;
 import com.team12.goodnote.events.NoteDeletedEvent;
 import com.team12.goodnote.events.NoteEditedEvent;
 import com.team12.goodnote.events.NoteFoldersUpdatedEvent;
+import com.team12.goodnote.jobs.SaveDrawingJob;
+import com.team12.goodnote.jobs.SaveImageJob;
 import com.team12.goodnote.models.Folder;
 import com.team12.goodnote.models.Note;
 import com.team12.goodnote.models.Note_Table;
@@ -146,6 +153,13 @@ public class NoteActivity extends AppCompatActivity{
 		startActivity(intent);
 	}
 
+	@OnClick({ R.id.edit_image_button, R.id.drawing_image }) void clickEditImageButton(){
+		Intent intent = new Intent();
+		intent.setType("image/*");
+		intent.setAction(Intent.ACTION_GET_CONTENT);
+		startActivityForResult(intent, 1);
+	}
+
 	@OnClick(R.id.edit_folders_button) void clickEditFoldersButton(){
 		Intent intent = new AddToFoldersActivityIntentBuilder( note.getId()).build(this);
 		startActivity(intent);
@@ -183,4 +197,26 @@ public class NoteActivity extends AppCompatActivity{
 			EventBus.getDefault().postSticky(new NoteEditedEvent( note.getId()));
 		}
 	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		// Check which request we're responding to
+		if (requestCode == 1) {
+			// Make sure the request was successful
+			if (resultCode == RESULT_OK) {
+				try {
+					// 선택한 이미지에서 비트맵 생성
+					InputStream in = getContentResolver().openInputStream(data.getData());
+					Bitmap img = BitmapFactory.decodeStream(in);
+					in.close();
+					// 이미지 표시
+					App.JOB_MANAGER.addJobInBackground(new SaveImageJob(img, note.getId()));
+					drawingImage.setImageBitmap(img);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	}
+
 }
