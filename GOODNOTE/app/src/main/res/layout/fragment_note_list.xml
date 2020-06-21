@@ -20,48 +20,30 @@
 				app:layout_scrollFlags="scroll|enterAlways|snap"
 				app:theme="@style/ToolbarTheme"
 				app:title="Notes"
-				app:titleTextAppearance="@style/Toolbar.TitleText">
-		</androidx.appcompat.widget.Toolbar>
-		<androidx.appcompat.widget.SearchView
-			android:id="@+id/search_view"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layoutDirection="rtl"
-			app:iconifiedByDefault="true"
-			app:queryHint="노트 제목을 입력하세요" />
+				app:titleTextAppearance="@style/Toolbar.TitleText"
+				/>
 	</com.google.android.material.appbar.AppBarLayout>
 
 	<androidx.recyclerview.widget.RecyclerView
 			android:id="@+id/recycler_view"
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:paddingEnd="@dimen/notes_gap"
+			android:paddingRight="@dimen/notes_gap"
 			app:layout_behavior="@string/appbar_scrolling_view_behavior"
-		tools:ignore="RtlSymmetry"
-		/>
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/new_note"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|end"
-		android:layout_margin="10dp"
-		android:src="@drawable/ic_note_add_24dp"
-		app:fabSize="normal"
-		app:rippleColor="@color/md_deep_orange_300"
-		/>
-	<com.google.android.material.floatingactionbutton.FloatingActionButton
-		android:id="@+id/sort"
-		android:layout_width="wrap_content"
-		android:layout_height="wrap_content"
-		android:layout_gravity="bottom|end"
-		android:layout_marginRight="10dp"
-		android:layout_marginBottom="70dp"
-		android:src="@drawable/ic_action_sort_by_alpha"
-		app:fabSize="normal"
-		app:rippleColor="@color/md_deep_orange_300"
-		/>
+			/>
 
-
+	<com.google.android.material.floatingactionbutton.FloatingActionButton
+			android:id="@+id/new_note"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_gravity="bottom|right"
+			android:layout_margin="16dp"
+			android:src="@drawable/ic_note_add_24dp"
+			app:fabSize="normal"
+			app:layout_anchor="@id/recycler_view"
+			app:layout_anchorGravity="bottom|right"
+			app:rippleColor="@color/md_deep_orange_300"
+			/>
 
 	<include
 			layout="@layout/view_zero_notes"
