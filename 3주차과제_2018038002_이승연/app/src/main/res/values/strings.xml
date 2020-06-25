@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Hello Android</string>
+    <string name="name">Name</string>
+    <string name="todo">ToDo</string>
+    <string name="edittext">https://www.google.com</string>
+    <string name="button1">글자나타내기</string>
+    <string name="button2">홈페이지열기</string>
+    <string name="radiobutton1">파이</string>
+    <string name="radiobutton2">오래오</string>
+</resources>
